@@ -28,7 +28,7 @@ type VirtualVolumeGroup struct {
 
 // StorageManager defines what a single Storage Node Agent can do locally
 type StorageManager interface {
-	ExtendVolumeGroup(diskID string, sizeGB uint64) error
+	ExtendVolumeGroup(diskPath string, sizeGB uint64) error
 	CreateLogicalVolume(volumeID string, sizeGB uint64) (*VirtualLogicalVolume, error)
 	GetCapacity() (total uint64, free uint64)
 }
