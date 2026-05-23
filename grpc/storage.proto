@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/swe-ayush/nimbusfs/pkg/pb";
+
+service StorageService{
+    rpc CreateVolume (CreateVolumeRequest) returns (CreateVolumeResponse);
+    rpc GetStats(GetsStatsRequest) returns (GetsStatsResponse);
+}
+
+message CreateVolumeRequest {
+    string volume_id = 1;
+    double size_gb = 2;
+}
+
+message CreateVolumeResponse {
+    bool success = 1;
+    string message = 2;
+    string path = 3;
+}
+
+message GetsStatsRequest {}
+
+message GetsStatsResponse {
+    string node_id = 1;
+    double total_space_gb = 2;
+    double free_space_gb = 3;
+}

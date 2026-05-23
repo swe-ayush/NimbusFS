@@ -1,13 +1,17 @@
 package services
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/swe-ayush/nimbusfs/pkg/pb"
 )
 
 type LocalStorageManager struct{
+	pb.UnimplementedStorageServiceServer
 	VG *VirtualVolumeGroup
 }
 
@@ -21,7 +25,35 @@ func NewLocalStorageManager(name string) *LocalStorageManager{
 	}
 }
 
-func (m *LocalStorageManager) ExtendVolumeGroup(diskPath string, sizeGB uint64) error{
+func (m *LocalStorageManager) CreateVolume(ctx context.Context, req *pb.CreateVolumeRequest) (*pb.CreateVolumeResponse, error) {
+	chunkID := req.GetVolumeId()
+	sizeGB := req.GetSizeGb()
+	chunkPath := fmt.Sprintf("./storage_devices/%s.img", chunkID)
+	err := m.ExtendVolumeGroup(chunkPath, sizeGB)
+	if err != nil {
+		return &pb.CreateVolumeResponse{
+			Success: false,
+			Message: fmt.Sprintf("Failed to accomodate chunk:%s in the pool : %v", chunkID, err),
+		}, nil
+	}
+
+	return &pb.CreateVolumeResponse{
+		Success: true,
+		Message: fmt.Sprintf("Capacity Expansion Successful by volume : %s for %.2f GB", chunkID, sizeGB),
+		Path: chunkPath,
+	}, nil
+}
+
+func (m *LocalStorageManager) GetStats(ctx context.Context, req *pb.GetsStatsRequest) (*pb.GetsStatsResponse, error) {
+	total, free := m.GetCapacity()
+	return &pb.GetsStatsResponse{
+		NodeId: m.VG.Name,
+		TotalSpaceGb: total,
+		FreeSpaceGb: free,
+	}, nil
+}
+
+func (m *LocalStorageManager) ExtendVolumeGroup(diskPath string, sizeGB float64) error{
 	m.VG.mu.Lock()
 	defer m.VG.mu.Unlock()
 
@@ -49,14 +81,14 @@ func (m *LocalStorageManager) ExtendVolumeGroup(diskPath string, sizeGB uint64) 
 	return nil
 }
 
-func (m *LocalStorageManager) CreateLogicalVolume(volumeID string, sizeGB uint64) (*VirtualLogicalVolume, error){
+func (m *LocalStorageManager) CreateLogicalVolume(volumeID string, sizeGB float64) (*VirtualLogicalVolume, error){
 	m.VG.mu.Lock()
 	defer m.VG.mu.Unlock()
 	// logical section
 	return nil,nil
 }
 
-func (m *LocalStorageManager) GetCapacity() (total uint64, free uint64){
+func (m *LocalStorageManager) GetCapacity() (total float64, free float64){
 	m.VG.mu.RLock()
 	defer m.VG.mu.RUnlock()
 
