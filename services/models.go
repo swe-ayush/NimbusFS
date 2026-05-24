@@ -1,7 +1,10 @@
 package services
 
 import (
+	"context"
 	"sync"
+
+	"github.com/swe-ayush/nimbusfs/pkg/pb"
 )
 
 type PhysicalVolume struct {
@@ -29,6 +32,6 @@ type VirtualVolumeGroup struct {
 // StorageManager defines what a single Storage Node Agent can do locally
 type StorageManager interface {
 	ExtendVolumeGroup(diskPath string, sizeGB float64) error
-	CreateLogicalVolume(volumeID string, sizeGB float64) (*VirtualLogicalVolume, error)
+	CreateLogicalVolume(ctx context.Context, req *pb.CreateLogicalVolumeRequest) (*pb.CreateLogicalVolumeResponse, error)
 	GetCapacity() (total float64, free float64)
 }

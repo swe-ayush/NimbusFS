@@ -6,6 +6,7 @@ option go_package = "github.com/swe-ayush/nimbusfs/pkg/pb";
 
 service StorageService{
     rpc CreateVolume (CreateVolumeRequest) returns (CreateVolumeResponse);
+    rpc CreateLogicalVolume (CreateLogicalVolumeRequest) returns (CreateLogicalVolumeResponse);
     rpc GetStats(GetsStatsRequest) returns (GetsStatsResponse);
 }
 
@@ -15,6 +16,18 @@ message CreateVolumeRequest {
 }
 
 message CreateVolumeResponse {
+    bool success = 1;
+    string message = 2;
+    string path = 3;
+}
+
+message CreateLogicalVolumeRequest{
+    string volume_id = 1;
+    string volume_name = 2;
+    double size_gb = 3;
+}
+
+message CreateLogicalVolumeResponse {
     bool success = 1;
     string message = 2;
     string path = 3;

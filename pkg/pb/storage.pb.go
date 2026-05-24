@@ -133,6 +133,126 @@ func (x *CreateVolumeResponse) GetPath() string {
 	return ""
 }
 
+type CreateLogicalVolumeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VolumeId      string                 `protobuf:"bytes,1,opt,name=volume_id,json=volumeId,proto3" json:"volume_id,omitempty"`
+	VolumeName    string                 `protobuf:"bytes,2,opt,name=volume_name,json=volumeName,proto3" json:"volume_name,omitempty"`
+	SizeGb        float64                `protobuf:"fixed64,3,opt,name=size_gb,json=sizeGb,proto3" json:"size_gb,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateLogicalVolumeRequest) Reset() {
+	*x = CreateLogicalVolumeRequest{}
+	mi := &file_grpc_storage_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateLogicalVolumeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateLogicalVolumeRequest) ProtoMessage() {}
+
+func (x *CreateLogicalVolumeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_storage_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateLogicalVolumeRequest.ProtoReflect.Descriptor instead.
+func (*CreateLogicalVolumeRequest) Descriptor() ([]byte, []int) {
+	return file_grpc_storage_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateLogicalVolumeRequest) GetVolumeId() string {
+	if x != nil {
+		return x.VolumeId
+	}
+	return ""
+}
+
+func (x *CreateLogicalVolumeRequest) GetVolumeName() string {
+	if x != nil {
+		return x.VolumeName
+	}
+	return ""
+}
+
+func (x *CreateLogicalVolumeRequest) GetSizeGb() float64 {
+	if x != nil {
+		return x.SizeGb
+	}
+	return 0
+}
+
+type CreateLogicalVolumeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateLogicalVolumeResponse) Reset() {
+	*x = CreateLogicalVolumeResponse{}
+	mi := &file_grpc_storage_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateLogicalVolumeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateLogicalVolumeResponse) ProtoMessage() {}
+
+func (x *CreateLogicalVolumeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_storage_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateLogicalVolumeResponse.ProtoReflect.Descriptor instead.
+func (*CreateLogicalVolumeResponse) Descriptor() ([]byte, []int) {
+	return file_grpc_storage_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CreateLogicalVolumeResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *CreateLogicalVolumeResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CreateLogicalVolumeResponse) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
 type GetsStatsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -141,7 +261,7 @@ type GetsStatsRequest struct {
 
 func (x *GetsStatsRequest) Reset() {
 	*x = GetsStatsRequest{}
-	mi := &file_grpc_storage_proto_msgTypes[2]
+	mi := &file_grpc_storage_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -153,7 +273,7 @@ func (x *GetsStatsRequest) String() string {
 func (*GetsStatsRequest) ProtoMessage() {}
 
 func (x *GetsStatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_storage_proto_msgTypes[2]
+	mi := &file_grpc_storage_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -166,7 +286,7 @@ func (x *GetsStatsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetsStatsRequest.ProtoReflect.Descriptor instead.
 func (*GetsStatsRequest) Descriptor() ([]byte, []int) {
-	return file_grpc_storage_proto_rawDescGZIP(), []int{2}
+	return file_grpc_storage_proto_rawDescGZIP(), []int{4}
 }
 
 type GetsStatsResponse struct {
@@ -180,7 +300,7 @@ type GetsStatsResponse struct {
 
 func (x *GetsStatsResponse) Reset() {
 	*x = GetsStatsResponse{}
-	mi := &file_grpc_storage_proto_msgTypes[3]
+	mi := &file_grpc_storage_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -192,7 +312,7 @@ func (x *GetsStatsResponse) String() string {
 func (*GetsStatsResponse) ProtoMessage() {}
 
 func (x *GetsStatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_storage_proto_msgTypes[3]
+	mi := &file_grpc_storage_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -205,7 +325,7 @@ func (x *GetsStatsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetsStatsResponse.ProtoReflect.Descriptor instead.
 func (*GetsStatsResponse) Descriptor() ([]byte, []int) {
-	return file_grpc_storage_proto_rawDescGZIP(), []int{3}
+	return file_grpc_storage_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetsStatsResponse) GetNodeId() string {
@@ -240,14 +360,24 @@ const file_grpc_storage_proto_rawDesc = "" +
 	"\x14CreateVolumeResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x12\n" +
+	"\x04path\x18\x03 \x01(\tR\x04path\"s\n" +
+	"\x1aCreateLogicalVolumeRequest\x12\x1b\n" +
+	"\tvolume_id\x18\x01 \x01(\tR\bvolumeId\x12\x1f\n" +
+	"\vvolume_name\x18\x02 \x01(\tR\n" +
+	"volumeName\x12\x17\n" +
+	"\asize_gb\x18\x03 \x01(\x01R\x06sizeGb\"e\n" +
+	"\x1bCreateLogicalVolumeResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x12\n" +
 	"\x04path\x18\x03 \x01(\tR\x04path\"\x12\n" +
 	"\x10GetsStatsRequest\"v\n" +
 	"\x11GetsStatsResponse\x12\x17\n" +
 	"\anode_id\x18\x01 \x01(\tR\x06nodeId\x12$\n" +
 	"\x0etotal_space_gb\x18\x02 \x01(\x01R\ftotalSpaceGb\x12\"\n" +
-	"\rfree_space_gb\x18\x03 \x01(\x01R\vfreeSpaceGb2\x8c\x01\n" +
+	"\rfree_space_gb\x18\x03 \x01(\x01R\vfreeSpaceGb2\xe4\x01\n" +
 	"\x0eStorageService\x12A\n" +
-	"\fCreateVolume\x12\x17.pb.CreateVolumeRequest\x1a\x18.pb.CreateVolumeResponse\x127\n" +
+	"\fCreateVolume\x12\x17.pb.CreateVolumeRequest\x1a\x18.pb.CreateVolumeResponse\x12V\n" +
+	"\x13CreateLogicalVolume\x12\x1e.pb.CreateLogicalVolumeRequest\x1a\x1f.pb.CreateLogicalVolumeResponse\x127\n" +
 	"\bGetStats\x12\x14.pb.GetsStatsRequest\x1a\x15.pb.GetsStatsResponseB&Z$github.com/swe-ayush/nimbusfs/pkg/pbb\x06proto3"
 
 var (
@@ -262,20 +392,24 @@ func file_grpc_storage_proto_rawDescGZIP() []byte {
 	return file_grpc_storage_proto_rawDescData
 }
 
-var file_grpc_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_grpc_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_grpc_storage_proto_goTypes = []any{
-	(*CreateVolumeRequest)(nil),  // 0: pb.CreateVolumeRequest
-	(*CreateVolumeResponse)(nil), // 1: pb.CreateVolumeResponse
-	(*GetsStatsRequest)(nil),     // 2: pb.GetsStatsRequest
-	(*GetsStatsResponse)(nil),    // 3: pb.GetsStatsResponse
+	(*CreateVolumeRequest)(nil),         // 0: pb.CreateVolumeRequest
+	(*CreateVolumeResponse)(nil),        // 1: pb.CreateVolumeResponse
+	(*CreateLogicalVolumeRequest)(nil),  // 2: pb.CreateLogicalVolumeRequest
+	(*CreateLogicalVolumeResponse)(nil), // 3: pb.CreateLogicalVolumeResponse
+	(*GetsStatsRequest)(nil),            // 4: pb.GetsStatsRequest
+	(*GetsStatsResponse)(nil),           // 5: pb.GetsStatsResponse
 }
 var file_grpc_storage_proto_depIdxs = []int32{
 	0, // 0: pb.StorageService.CreateVolume:input_type -> pb.CreateVolumeRequest
-	2, // 1: pb.StorageService.GetStats:input_type -> pb.GetsStatsRequest
-	1, // 2: pb.StorageService.CreateVolume:output_type -> pb.CreateVolumeResponse
-	3, // 3: pb.StorageService.GetStats:output_type -> pb.GetsStatsResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 1: pb.StorageService.CreateLogicalVolume:input_type -> pb.CreateLogicalVolumeRequest
+	4, // 2: pb.StorageService.GetStats:input_type -> pb.GetsStatsRequest
+	1, // 3: pb.StorageService.CreateVolume:output_type -> pb.CreateVolumeResponse
+	3, // 4: pb.StorageService.CreateLogicalVolume:output_type -> pb.CreateLogicalVolumeResponse
+	5, // 5: pb.StorageService.GetStats:output_type -> pb.GetsStatsResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -292,7 +426,7 @@ func file_grpc_storage_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_grpc_storage_proto_rawDesc), len(file_grpc_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

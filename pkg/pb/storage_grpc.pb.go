@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StorageService_CreateVolume_FullMethodName = "/pb.StorageService/CreateVolume"
-	StorageService_GetStats_FullMethodName     = "/pb.StorageService/GetStats"
+	StorageService_CreateVolume_FullMethodName        = "/pb.StorageService/CreateVolume"
+	StorageService_CreateLogicalVolume_FullMethodName = "/pb.StorageService/CreateLogicalVolume"
+	StorageService_GetStats_FullMethodName            = "/pb.StorageService/GetStats"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -28,6 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StorageServiceClient interface {
 	CreateVolume(ctx context.Context, in *CreateVolumeRequest, opts ...grpc.CallOption) (*CreateVolumeResponse, error)
+	CreateLogicalVolume(ctx context.Context, in *CreateLogicalVolumeRequest, opts ...grpc.CallOption) (*CreateLogicalVolumeResponse, error)
 	GetStats(ctx context.Context, in *GetsStatsRequest, opts ...grpc.CallOption) (*GetsStatsResponse, error)
 }
 
@@ -49,6 +51,16 @@ func (c *storageServiceClient) CreateVolume(ctx context.Context, in *CreateVolum
 	return out, nil
 }
 
+func (c *storageServiceClient) CreateLogicalVolume(ctx context.Context, in *CreateLogicalVolumeRequest, opts ...grpc.CallOption) (*CreateLogicalVolumeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateLogicalVolumeResponse)
+	err := c.cc.Invoke(ctx, StorageService_CreateLogicalVolume_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storageServiceClient) GetStats(ctx context.Context, in *GetsStatsRequest, opts ...grpc.CallOption) (*GetsStatsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetsStatsResponse)
@@ -64,6 +76,7 @@ func (c *storageServiceClient) GetStats(ctx context.Context, in *GetsStatsReques
 // for forward compatibility.
 type StorageServiceServer interface {
 	CreateVolume(context.Context, *CreateVolumeRequest) (*CreateVolumeResponse, error)
+	CreateLogicalVolume(context.Context, *CreateLogicalVolumeRequest) (*CreateLogicalVolumeResponse, error)
 	GetStats(context.Context, *GetsStatsRequest) (*GetsStatsResponse, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
@@ -77,6 +90,9 @@ type UnimplementedStorageServiceServer struct{}
 
 func (UnimplementedStorageServiceServer) CreateVolume(context.Context, *CreateVolumeRequest) (*CreateVolumeResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateVolume not implemented")
+}
+func (UnimplementedStorageServiceServer) CreateLogicalVolume(context.Context, *CreateLogicalVolumeRequest) (*CreateLogicalVolumeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateLogicalVolume not implemented")
 }
 func (UnimplementedStorageServiceServer) GetStats(context.Context, *GetsStatsRequest) (*GetsStatsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetStats not implemented")
@@ -120,6 +136,24 @@ func _StorageService_CreateVolume_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_CreateLogicalVolume_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLogicalVolumeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).CreateLogicalVolume(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_CreateLogicalVolume_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).CreateLogicalVolume(ctx, req.(*CreateLogicalVolumeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _StorageService_GetStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetsStatsRequest)
 	if err := dec(in); err != nil {
@@ -148,6 +182,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateVolume",
 			Handler:    _StorageService_CreateVolume_Handler,
+		},
+		{
+			MethodName: "CreateLogicalVolume",
+			Handler:    _StorageService_CreateLogicalVolume_Handler,
 		},
 		{
 			MethodName: "GetStats",

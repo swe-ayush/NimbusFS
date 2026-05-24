@@ -34,6 +34,7 @@ func (m *LocalStorageManager) CreateVolume(ctx context.Context, req *pb.CreateVo
 		return &pb.CreateVolumeResponse{
 			Success: false,
 			Message: fmt.Sprintf("Failed to accomodate chunk:%s in the pool : %v", chunkID, err),
+			Path: "",
 		}, nil
 	}
 
@@ -81,11 +82,40 @@ func (m *LocalStorageManager) ExtendVolumeGroup(diskPath string, sizeGB float64)
 	return nil
 }
 
-func (m *LocalStorageManager) CreateLogicalVolume(volumeID string, sizeGB float64) (*VirtualLogicalVolume, error){
+func (m *LocalStorageManager) CreateLogicalVolume(ctx context.Context, req *pb.CreateLogicalVolumeRequest) (*pb.CreateLogicalVolumeResponse, error){
 	m.VG.mu.Lock()
 	defer m.VG.mu.Unlock()
-	// logical section
-	return nil,nil
+	freeSpace := m.VG.TotalCapacity - m.VG.AllocatedSpace
+	requestedSizeGB := req.GetSizeGb()
+	if requestedSizeGB > freeSpace {
+		return &pb.CreateLogicalVolumeResponse{
+			Success: false,
+			Message: fmt.Sprintf("Allocation failed: Node out of capacity. Requested: %.2fGB, Available: %.2fGB", requestedSizeGB, freeSpace),
+			Path: "",
+		}, nil
+	}
+
+	m.VG.AllocatedSpace += requestedSizeGB
+	virtualPath := fmt.Sprintf("./storage_pools/%s/%s", m.VG.Name, req.GetVolumeId())
+	if m.VG.LogicalVolumes == nil {
+		m.VG.LogicalVolumes = make(map[string]*VirtualLogicalVolume)
+	}
+
+	m.VG.LogicalVolumes[req.GetVolumeId()] = &VirtualLogicalVolume{
+		ID: req.GetVolumeId(),
+		Name: req.GetVolumeName(),
+		SizeGB: req.GetSizeGb(),
+		Path: virtualPath,
+	}
+
+	log.Printf("[NODE] Isolated slice ID: %s (%s) | Size: %.2f GB | Total Node Allocation: %.2f GB", 
+		req.GetVolumeId(), req.GetVolumeName(), req.GetSizeGb(), m.VG.AllocatedSpace)
+
+	return &pb.CreateLogicalVolumeResponse{
+		Success: true,
+		Message: fmt.Sprintf("Successfully provisioned logical volume %s", req.GetVolumeName()),
+		Path:    virtualPath,
+	}, nil
 }
 
 func (m *LocalStorageManager) GetCapacity() (total float64, free float64){
